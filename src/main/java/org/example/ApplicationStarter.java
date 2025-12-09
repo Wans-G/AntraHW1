@@ -1,10 +1,17 @@
 /**
- * 1. Need a db(derby) to record teacher, student information(many to many)
- *   a. Construct 3 tables(student entity, student_teacher entity, teacher entity)
- *   b. To keep it simple, for the entity, we only have id(unique primary key), first_name, last_name, and foreign keys
+ * HW1 Requirements:
+ *
+ * 1. Need a db(derby) to record teacher, student information(many-to-many relationship)
+ *   a. Construct 3 tables(student entity, student-teacher entity, teacher entity)
+ *   b. To keep it simple, for the entity, we only have id(unique primary key), first_name, last_name
  * 2. Use SpringMVC(Controller, Service...) to create an endpoint for user:
  *   a. get all related teachers by student id
- *      - Endpoint Design: /students?id={id}/
+ *      - Endpoint Design: /students/{id}/teachers
+ *   b. CRUD for student
+ *      - Get: /students/{id}
+ *      - Post: /students/
+ *      - Put: /students/{id}
+ *      - Delete: /students/{id}
  *
  * Comments:adding derbyshared.jar along with derby.jar and derbytools.jar to the dependencies
  * */
@@ -35,15 +42,15 @@ public class ApplicationStarter {
         return args -> {
             System.out.println("=== Seeding Derby Database ===");
 
-            // 创建几个学生
-            Student s1 = studentRepo.save(new Student("Alice", "Wang"));
-            Student s2 = studentRepo.save(new Student("Bob", "Li"));
+            // new students
+            Student s1 = studentRepo.save(new Student("San", "Zhang"));
+            Student s2 = studentRepo.save(new Student("Si", "Li"));
 
-            // 创建几个老师
-            Teacher t1 = teacherRepo.save(new Teacher("Tom", "Zhang"));
-            Teacher t2 = teacherRepo.save(new Teacher("Jerry", "Liu"));
+            // new teachers
+            Teacher t1 = teacherRepo.save(new Teacher("Wu", "Wang"));
+            Teacher t2 = teacherRepo.save(new Teacher("Liu", "Zhao"));
 
-            // 建立关系
+            // connect s1->t1,t2   s2->t2
             stRepo.save(new StudentTeacher(s1, t1));
             stRepo.save(new StudentTeacher(s1, t2));
             stRepo.save(new StudentTeacher(s2, t2));
