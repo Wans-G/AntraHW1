@@ -59,8 +59,7 @@ public class ApplicationStarter {
         };
     }
 
-    public static void main(String[] args) throws ClassNotFoundException {
-        Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+    public static void main(String[] args) {
         SpringApplication.run(ApplicationStarter.class, args);
     }
 }

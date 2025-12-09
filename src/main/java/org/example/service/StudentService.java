@@ -1,7 +1,6 @@
 package org.example.service;
 
 import org.example.dto.StudentDTO;
-import org.example.dto.StudentRequest;
 import org.example.entity.Student;
 import org.example.entity.StudentTeacher;
 import org.example.entity.Teacher;
@@ -29,7 +28,11 @@ public class StudentService {
         return new StudentDTO(student.getStudentId(), student.getFirstName(), student.getLastName());
     }
     public List<Teacher> findTeacherByStudentId(Long studentId){
-        List<StudentTeacher> res = this.studentTeacherRepository.findByStudent_StudentId(studentId);
+        //check if student exist
+        studentRepository.findById(studentId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found!"));
+
+        List<StudentTeacher> res = studentTeacherRepository.findByStudent_StudentId(studentId);
 
         return res.stream()
                 .map(StudentTeacher::getTeacher)
